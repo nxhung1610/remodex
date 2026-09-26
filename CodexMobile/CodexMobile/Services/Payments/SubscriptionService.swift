@@ -118,8 +118,12 @@ final class SubscriptionService {
         freeSendCount < Self.freeSendLimit
     }
 
+    // Self-hosted fork: this client connects to the user's own bridge/relay, so no StoreKit
+    // entitlement is required to use the app. Keep the upstream Pro purchase UI intact.
+    static let isSelfHostedUnlockedBuild = true
+
     var hasAppAccess: Bool {
-        hasProAccess || hasFreeSendAccess
+        Self.isSelfHostedUnlockedBuild || hasProAccess || hasFreeSendAccess
     }
 
     // Counts a valid send attempt for free users even if the turn later fails.
